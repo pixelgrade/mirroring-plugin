@@ -38,9 +38,6 @@ export default class App extends React.Component {
 	    }
 
 	    this.gn = new GyroNorm();
-
-	    // this.handleAcceleration = this.handleAcceleration.bind(this)
-	    // this.handleOrientation = this.handleOrientation.bind(this)
 	 }
 
 	render() {
@@ -77,17 +74,10 @@ export default class App extends React.Component {
 				})
 			})
 		});
-
-	    // this.handleOrientation()
-	    // window.addEventListener('devicemotion', this.handleAcceleration)
-	    // window.addEventListener('orientationchange', this.handleOrientation)
 	}
 
 	componentWillUnmount () {
 		this.gn.stopLogging();
-
-	    // window.removeEventListener('devicemotion', this.handleAcceleration)
-	    // window.removeEventListener('orientationchange', this.handleOrientation)
 	}
 
 

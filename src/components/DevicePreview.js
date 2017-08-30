@@ -10,11 +10,6 @@ export default class DevicePreview extends React.Component {
 
 	propTypes: {
 		VendorSpecificProp: 'value',
-		// children: PropTypes.number,
-		children: "10",
-		multiplier: PropTypes.number,
-		useGravity: PropTypes.bool,
-		device_data: PropTypes.object,
 		dm: PropTypes.object,
 		do: PropTypes.object
 	}
@@ -27,16 +22,6 @@ export default class DevicePreview extends React.Component {
 	}
 
 	render() {
-
-		// console.log(this.props.dm.alpha);
-		console.log(this.props.dm.alpha);
-		// console.log(this.props.dm.gamma);
-
-		// translate3d(
-		// 						${this.props.dm.x}px, 
-		// 						${this.props.dm.y}px, 
-		// 						0)
-
 		return <div className="content">
 			<div className="device-preview">
 

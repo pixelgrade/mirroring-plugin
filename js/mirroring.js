@@ -19597,9 +19597,6 @@
 			};
 	
 			this.gn = new GyroNorm();
-	
-			// this.handleAcceleration = this.handleAcceleration.bind(this)
-			// this.handleOrientation = this.handleOrientation.bind(this)
 		}
 	
 		_createClass(App, [{
@@ -19640,18 +19637,11 @@
 						});
 					});
 				});
-	
-				// this.handleOrientation()
-				// window.addEventListener('devicemotion', this.handleAcceleration)
-				// window.addEventListener('orientationchange', this.handleOrientation)
 			}
 		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
 				this.gn.stopLogging();
-	
-				// window.removeEventListener('devicemotion', this.handleAcceleration)
-				// window.removeEventListener('orientationchange', this.handleOrientation)
 			}
 		}, {
 			key: 'handleOrientation',
@@ -20363,16 +20353,6 @@
 		_createClass(DevicePreview, [{
 			key: 'render',
 			value: function render() {
-	
-				// console.log(this.props.dm.alpha);
-				console.log(this.props.dm.alpha);
-				// console.log(this.props.dm.gamma);
-	
-				// translate3d(
-				// 						${this.props.dm.x}px,
-				// 						${this.props.dm.y}px,
-				// 						0)
-	
 				return _react2['default'].createElement(
 					'div',
 					{ className: 'content' },
@@ -20442,8 +20422,6 @@
 	
 	exports['default'] = DevicePreview;
 	module.exports = exports['default'];
-
-	// children: PropTypes.number,
 
 /***/ },
 /* 193 */
