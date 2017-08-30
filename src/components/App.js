@@ -1,15 +1,30 @@
 import React from 'react';
 
 import Header from './Header';
+import Footer from './Footer';
 import UsersOnline from './UsersOnline';
 import DevicePreview from './DevicePreview';
 
 export default class App extends React.Component {
 
+    gn: null;
+
 	constructor (props) {
 	    super(props)
 
 	    this.state = {
+	      dm: {
+	     	alpha: 3,
+	     	beta: 3,
+	     	gamma: 3,
+	     	gx: 3,
+	     	gy: 3,
+	     	gz: 3,
+	     	x: 3,
+	     	y: 3,
+	     	z: 3
+	      },
+	      do: null,
 	      x: "0",
 	      y: null,
 	      z: null,
@@ -17,29 +32,57 @@ export default class App extends React.Component {
 	      landscape: false
 	    }
 
-	    this.handleAcceleration = this.handleAcceleration.bind(this)
-	    this.handleOrientation = this.handleOrientation.bind(this)
+	    this.gn = new GyroNorm();
+
+	    // this.handleAcceleration = this.handleAcceleration.bind(this)
+	    // this.handleOrientation = this.handleOrientation.bind(this)
 	 }
 
 	render() {
 
-		console.log(this.state);
+		// console.log(this.state);
 
-		return <div id="app">
+		return <div id="app" className="entry-content">
 			<Header />
-			<DevicePreview device_data={this.state}/>
+			<DevicePreview dm={this.state.dm} do={this.state.do}/>
+			<Footer />
 			</div>
 	}
 
 	componentDidMount () {
-	    this.handleOrientation()
-	    window.addEventListener('devicemotion', this.handleAcceleration)
-	    window.addEventListener('orientationchange', this.handleOrientation)
+
+		var args = {
+			frequency:500,					// ( How often the object sends the values - milliseconds )
+			gravityNormalized:true,			// ( If the gravity related values to be normalized )
+			orientationBase:GyroNorm.GAME,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. gn.GAME returns orientation values with respect to the head direction of the device. gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
+			decimalCount:2,					// ( How many digits after the decimal point will there be in the return values )
+			logger:null,					// ( Function to be called to log messages from gyronorm.js )
+			screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
+		};
+
+		var comp = this;
+		
+
+		comp.gn.init(args).then(function(){ 
+			comp.gn.start(function(data){
+				// console.log(data)
+				comp.setState({
+					dm: data.dm,
+					do: data.do
+				})
+			})
+		});
+
+	    // this.handleOrientation()
+	    // window.addEventListener('devicemotion', this.handleAcceleration)
+	    // window.addEventListener('orientationchange', this.handleOrientation)
 	}
 
 	componentWillUnmount () {
-	    window.removeEventListener('devicemotion', this.handleAcceleration)
-	    window.removeEventListener('orientationchange', this.handleOrientation)
+		this.gn.stopLogging();
+
+	    // window.removeEventListener('devicemotion', this.handleAcceleration)
+	    // window.removeEventListener('orientationchange', this.handleOrientation)
 	}
 
 
@@ -57,9 +100,9 @@ export default class App extends React.Component {
 
 	    this.setState({
 	      rotation,
-	      x: (landscape ? y : x) * multiplier,
-	      y: (landscape ? x : y) * multiplier,
-	      z: z * multiplier
+	      x: (landscape ? y : x) * 3,
+	      y: (landscape ? x : y) * 3,
+	      z: z * 3
 	    })
 	}
 
