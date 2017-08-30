@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class DevicePreview extends React.Component {
 
@@ -7,9 +8,27 @@ export default class DevicePreview extends React.Component {
 		right:0
 	}
 
+	propTypes: {
+		// children: PropTypes.number,
+		children: "10",
+		multiplier: PropTypes.number,
+		useGravity: PropTypes.bool,
+		device_data: PropTypes.object
+
+	}
+
+	static get defaultProps() {
+		return {
+			multiplier: 1,
+			useGravity: true,
+		}
+	}
+
 	render() {
-		return <div style={{ paddingLeft: this.positions.left }} >
-		</div>
+
+		return <div style={{ paddingLeft: this.props.device_data.x }}>
+					Card
+				</div>
 	}
 
 	componentWillMount() {
