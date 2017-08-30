@@ -72,7 +72,7 @@ export default class DevicePreview extends React.Component {
 		var comp = this;
 
 		jQuery.post(useronlineL10n.ajax_url, data, function(response) {
-			console.log(response)
+			// console.log(response)
 
 			comp.html = response
 

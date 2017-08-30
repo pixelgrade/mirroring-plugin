@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from 'components/App';
+import Game from 'components/Game';
 import Intro from 'components/Intro';
 
 function runapp() {
-	console.log( mgame );
-
 	if ( typeof mgame.name === 'undefined' ) {
 		ReactDOM.render( <Intro />, document.getElementById( 'notloggedin' ) );
 	} else {
-		ReactDOM.render( <App />, document.getElementById( 'mirroring' ) );
+		ReactDOM.render( <Game />, document.getElementById( 'mirroring' ) );
 	}
 }
 

@@ -36,7 +36,7 @@ add_action( 'wp_enqueue_scripts', 'mirrorme_add_scripts', 9 );
 
 function mirrorme_add_shortcode( $atts, $content = "" ) {
 	if ( is_user_logged_in() ) {
-		return "<div id='mirroring'>a</div>";
+		return "<div id='mirroring'></div>";
 	}
 
 	return "<div id='notloggedin'></div>";

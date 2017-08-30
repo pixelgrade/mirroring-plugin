@@ -1,12 +1,31 @@
 import React from 'react';
 
 export default class UsersOnline extends React.Component {
+	constructor (props) {
+		super(props)
 
-	html: null
+		this.state = {
+			users: null
+		}
+
+		this.get_data = this.get_data.bind(this)
+	}
 
 	render() {
-		return <div dangerouslySetInnerHTML={{__html: this.html}}>
-		</div>
+		if ( this.state.users !== null ) {
+			return <div>
+				<h3>Players online now:</h3>
+				<ul>
+					{Object.values(this.state.users).map(function (user) {
+						return <li data-userid={user.user_id} key={user.user_id} >
+							{user.user_name}
+						</li>
+					})}
+				</ul>
+			</div>
+		}
+
+		return <div>No one</div>
 	}
 
 	componentWillMount() {
@@ -29,13 +48,9 @@ export default class UsersOnline extends React.Component {
 		var comp = this;
 
 		jQuery.post(useronlineL10n.ajax_url, data, function(response) {
-			console.log(response)
-
-			comp.html = response
-
-			comp.forceUpdate()
-
-			// jQuery('#useronline-' + mode).html(response);
+			comp.setState({
+				users: JSON.parse(response)
+			})
 		});
 	}
 }
