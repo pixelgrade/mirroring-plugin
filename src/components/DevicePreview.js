@@ -13,8 +13,9 @@ export default class DevicePreview extends React.Component {
 		children: "10",
 		multiplier: PropTypes.number,
 		useGravity: PropTypes.bool,
-		device_data: PropTypes.object
-
+		device_data: PropTypes.object,
+		dm: PropTypes.object,
+		do: PropTypes.object
 	}
 
 	static get defaultProps() {
@@ -26,9 +27,26 @@ export default class DevicePreview extends React.Component {
 
 	render() {
 
-		return <div style={{ paddingLeft: this.props.device_data.x }}>
+		console.log(this.props.dm.x);
+		// console.log(this.props.gyro.dm);
+
+		return <div className="content">
+			<div className="device-preview">
+
+				<div style={{ transform: `translate3d(
+								${this.props.dm.x}px, 
+								${this.props.dm.y}px, 
+								0)
+
+								rotateX(-45deg) rotateY(-45deg)
+
+								`}} 
+
+								className="device">
 					Card
 				</div>
+			</div>
+		</div>
 	}
 
 	componentWillMount() {

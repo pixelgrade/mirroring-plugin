@@ -19549,6 +19549,10 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
+	var _Footer = __webpack_require__(208);
+	
+	var _Footer2 = _interopRequireDefault(_Footer);
+	
 	var _UsersOnline = __webpack_require__(190);
 	
 	var _UsersOnline2 = _interopRequireDefault(_UsersOnline);
@@ -19556,6 +19560,10 @@
 	var _DevicePreview = __webpack_require__(191);
 	
 	var _DevicePreview2 = _interopRequireDefault(_DevicePreview);
+	
+	var _StartGame = __webpack_require__(209);
+	
+	var _StartGame2 = _interopRequireDefault(_StartGame);
 	
 	var App = (function (_React$Component) {
 		_inherits(App, _React$Component);
@@ -19566,6 +19574,21 @@
 			_get(Object.getPrototypeOf(App.prototype), 'constructor', this).call(this, props);
 	
 			this.state = {
+				game: {
+					status: 'waiting'
+				},
+				dm: {
+					alpha: 3,
+					beta: 3,
+					gamma: 3,
+					gx: 3,
+					gy: 3,
+					gz: 3,
+					x: 3,
+					y: 3,
+					z: 3
+				},
+				'do': null,
 				x: "0",
 				y: null,
 				z: null,
@@ -19573,8 +19596,10 @@
 				landscape: false
 			};
 	
-			this.handleAcceleration = this.handleAcceleration.bind(this);
-			this.handleOrientation = this.handleOrientation.bind(this);
+			this.gn = new GyroNorm();
+	
+			// this.handleAcceleration = this.handleAcceleration.bind(this)
+			// this.handleOrientation = this.handleOrientation.bind(this)
 		}
 	
 		_createClass(App, [{
@@ -19583,24 +19608,49 @@
 	
 				return _react2['default'].createElement(
 					'div',
-					{ id: 'app' },
+					{ id: 'app', className: 'entry-content' },
 					_react2['default'].createElement(_Header2['default'], null),
-					_react2['default'].createElement(_DevicePreview2['default'], { device_data: this.state }),
-					_react2['default'].createElement(_UsersOnline2['default'], null)
+					_react2['default'].createElement(_DevicePreview2['default'], { dm: this.state.dm, 'do': this.state['do'] }),
+					_react2['default'].createElement(_UsersOnline2['default'], null),
+					_react2['default'].createElement(_Footer2['default'], null)
 				);
 			}
 		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				this.handleOrientation();
-				window.addEventListener('devicemotion', this.handleAcceleration);
-				window.addEventListener('orientationchange', this.handleOrientation);
+	
+				var args = {
+					frequency: 500, // ( How often the object sends the values - milliseconds )
+					gravityNormalized: true, // ( If the gravity related values to be normalized )
+					orientationBase: GyroNorm.GAME, // ( Can be GyroNorm.GAME or GyroNorm.WORLD. gn.GAME returns orientation values with respect to the head direction of the device. gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
+					decimalCount: 2, // ( How many digits after the decimal point will there be in the return values )
+					logger: null, // ( Function to be called to log messages from gyronorm.js )
+					screenAdjusted: false // ( If set to true it will return screen adjusted values. )
+				};
+	
+				var comp = this;
+	
+				comp.gn.init(args).then(function () {
+					comp.gn.start(function (data) {
+						// console.log(data)
+						comp.setState({
+							dm: data.dm,
+							'do': data['do']
+						});
+					});
+				});
+	
+				// this.handleOrientation()
+				// window.addEventListener('devicemotion', this.handleAcceleration)
+				// window.addEventListener('orientationchange', this.handleOrientation)
 			}
 		}, {
 			key: 'componentWillUnmount',
 			value: function componentWillUnmount() {
-				window.removeEventListener('devicemotion', this.handleAcceleration);
-				window.removeEventListener('orientationchange', this.handleOrientation);
+				this.gn.stopLogging();
+	
+				// window.removeEventListener('devicemotion', this.handleAcceleration)
+				// window.removeEventListener('orientationchange', this.handleOrientation)
 			}
 		}, {
 			key: 'handleOrientation',
@@ -19625,9 +19675,9 @@
 	
 				this.setState({
 					rotation: rotation,
-					x: (landscape ? y : x) * multiplier,
-					y: (landscape ? x : y) * multiplier,
-					z: z * multiplier
+					x: (landscape ? y : x) * 3,
+					y: (landscape ? x : y) * 3,
+					z: z * 3
 				});
 			}
 		}]);
@@ -20284,10 +20334,23 @@
 			key: 'render',
 			value: function render() {
 	
+				console.log(this.props.dm.x);
+				// console.log(this.props.gyro.dm);
+	
 				return _react2['default'].createElement(
 					'div',
-					{ style: { paddingLeft: this.props.device_data.x } },
-					'Card'
+					{ className: 'content' },
+					_react2['default'].createElement(
+						'div',
+						{ className: 'device-preview' },
+						_react2['default'].createElement(
+							'div',
+							{ style: { transform: 'translate3d(\n\t\t\t\t\t\t\t\t' + this.props.dm.x + 'px, \n\t\t\t\t\t\t\t\t' + this.props.dm.y + 'px, \n\t\t\t\t\t\t\t\t0)\n\n\t\t\t\t\t\t\t\trotateX(-45deg) rotateY(-45deg)\n\n\t\t\t\t\t\t\t\t' },
+	
+								className: 'device' },
+							'Card'
+						)
+					)
 				);
 			}
 		}, {
@@ -21282,6 +21345,118 @@
 	    } return result;
 	  };
 	};
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _get = __webpack_require__(160)["default"];
+	
+	var _inherits = __webpack_require__(176)["default"];
+	
+	var _createClass = __webpack_require__(185)["default"];
+	
+	var _classCallCheck = __webpack_require__(188)["default"];
+	
+	var _interopRequireDefault = __webpack_require__(1)["default"];
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var Footer = (function (_React$Component) {
+		_inherits(Footer, _React$Component);
+	
+		function Footer() {
+			_classCallCheck(this, Footer);
+	
+			_get(Object.getPrototypeOf(Footer.prototype), "constructor", this).apply(this, arguments);
+		}
+	
+		_createClass(Footer, [{
+			key: "render",
+			value: function render() {
+				return _react2["default"].createElement(
+					"div",
+					{ className: "footer" },
+					_react2["default"].createElement(
+						"p",
+						{ className: "description" },
+						"You have 10s to set your device in the desired position."
+					)
+				);
+			}
+		}]);
+	
+		return Footer;
+	})(_react2["default"].Component);
+	
+	exports["default"] = Footer;
+	module.exports = exports["default"];
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _get = __webpack_require__(160)["default"];
+	
+	var _inherits = __webpack_require__(176)["default"];
+	
+	var _createClass = __webpack_require__(185)["default"];
+	
+	var _classCallCheck = __webpack_require__(188)["default"];
+	
+	var _interopRequireDefault = __webpack_require__(1)["default"];
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var StartGame = (function (_React$Component) {
+		_inherits(StartGame, _React$Component);
+	
+		function StartGame(props) {
+			_classCallCheck(this, StartGame);
+	
+			_get(Object.getPrototypeOf(StartGame.prototype), "constructor", this).call(this, props);
+	
+			this.state = {
+				users: null
+			};
+		}
+	
+		_createClass(StartGame, [{
+			key: "render",
+			value: function render() {
+	
+				return _react2["default"].createElement(
+					"a",
+					{ className: "btn", href: "#" },
+					"Start Game"
+				);
+			}
+		}, {
+			key: "componentWillMount",
+			value: function componentWillMount() {}
+		}]);
+	
+		return StartGame;
+	})(_react2["default"].Component);
+	
+	exports["default"] = StartGame;
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
