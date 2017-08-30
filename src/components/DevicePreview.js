@@ -9,6 +9,7 @@ export default class DevicePreview extends React.Component {
 	}
 
 	propTypes: {
+		VendorSpecificProp: 'value',
 		// children: PropTypes.number,
 		children: "10",
 		multiplier: PropTypes.number,
@@ -27,18 +28,27 @@ export default class DevicePreview extends React.Component {
 
 	render() {
 
-		console.log(this.props.dm.x);
-		// console.log(this.props.gyro.dm);
+		// console.log(this.props.dm.alpha);
+		console.log(this.props.dm.alpha);
+		// console.log(this.props.dm.gamma);
+
+		// translate3d(
+		// 						${this.props.dm.x}px, 
+		// 						${this.props.dm.y}px, 
+		// 						0)
 
 		return <div className="content">
 			<div className="device-preview">
 
-				<div style={{ transform: `translate3d(
-								${this.props.dm.x}px, 
-								${this.props.dm.y}px, 
-								0)
+				<div style={{ transform: `
 
-								rotateX(-45deg) rotateY(-45deg)
+								translateX(-50%) 
+								translateY(-50%)
+
+
+								rotateX(${this.props.do.beta}deg)
+								rotateY(${this.props.do.alpha}deg)
+								rotateZ(${this.props.do.gamma}deg)
 
 								`}} 
 
