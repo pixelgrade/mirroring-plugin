@@ -4,8 +4,6 @@ import App from 'components/App';
 import Intro from 'components/Intro';
 
 function runapp() {
-	console.log( mgame );
-
 	if ( typeof mgame.name === 'undefined' ) {
 		ReactDOM.render( <Intro />, document.getElementById( 'notloggedin' ) );
 	} else {

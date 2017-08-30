@@ -65,8 +65,6 @@
 	var _componentsIntro2 = _interopRequireDefault(_componentsIntro);
 	
 	function runapp() {
-		console.log(mgame);
-	
 		if (typeof mgame.name === 'undefined') {
 			_reactDom2['default'].render(_react2['default'].createElement(_componentsIntro2['default'], null), document.getElementById('notloggedin'));
 		} else {
@@ -19583,13 +19581,12 @@
 			key: 'render',
 			value: function render() {
 	
-				console.log(this.state);
-	
 				return _react2['default'].createElement(
 					'div',
 					{ id: 'app' },
 					_react2['default'].createElement(_Header2['default'], null),
-					_react2['default'].createElement(_DevicePreview2['default'], { device_data: this.state })
+					_react2['default'].createElement(_DevicePreview2['default'], { device_data: this.state }),
+					_react2['default'].createElement(_UsersOnline2['default'], null)
 				);
 			}
 		}, {
@@ -20154,6 +20151,8 @@
 	
 	var _classCallCheck = __webpack_require__(188)['default'];
 	
+	var _Object$values = __webpack_require__(204)['default'];
+	
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 	
 	Object.defineProperty(exports, '__esModule', {
@@ -20167,16 +20166,44 @@
 	var UsersOnline = (function (_React$Component) {
 		_inherits(UsersOnline, _React$Component);
 	
-		function UsersOnline() {
+		function UsersOnline(props) {
 			_classCallCheck(this, UsersOnline);
 	
-			_get(Object.getPrototypeOf(UsersOnline.prototype), 'constructor', this).apply(this, arguments);
+			_get(Object.getPrototypeOf(UsersOnline.prototype), 'constructor', this).call(this, props);
+	
+			this.state = {
+				users: null
+			};
+	
+			this.get_data = this.get_data.bind(this);
 		}
 	
 		_createClass(UsersOnline, [{
 			key: 'render',
 			value: function render() {
-				return _react2['default'].createElement('div', { dangerouslySetInnerHTML: { __html: this.html } });
+				if (this.state.users !== null) {
+					return _react2['default'].createElement(
+						'div',
+						null,
+						_react2['default'].createElement(
+							'ul',
+							null,
+							_Object$values(this.state.users).map(function (user) {
+								return _react2['default'].createElement(
+									'li',
+									{ 'data-userid': user.user_id, key: user.user_id },
+									user.user_name
+								);
+							})
+						)
+					);
+				}
+	
+				return _react2['default'].createElement(
+					'div',
+					null,
+					'No one'
+				);
 			}
 		}, {
 			key: 'componentWillMount',
@@ -20203,13 +20230,9 @@
 				var comp = this;
 	
 				jQuery.post(useronlineL10n.ajax_url, data, function (response) {
-					console.log(response);
-	
-					comp.html = response;
-	
-					comp.forceUpdate();
-	
-					// jQuery('#useronline-' + mode).html(response);
+					comp.setState({
+						users: JSON.parse(response)
+					});
 				});
 			}
 		}]);
@@ -20296,7 +20319,7 @@
 				var comp = this;
 	
 				jQuery.post(useronlineL10n.ajax_url, data, function (response) {
-					console.log(response);
+					// console.log(response)
 	
 					comp.html = response;
 	
@@ -21207,6 +21230,58 @@
 	
 	exports['default'] = Intro;
 	module.exports = exports['default'];
+
+/***/ },
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(205), __esModule: true };
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(206);
+	module.exports = __webpack_require__(172).Object.values;
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// http://goo.gl/XkBrjD
+	var $export = __webpack_require__(170)
+	  , $values = __webpack_require__(207)(false);
+	
+	$export($export.S, 'Object', {
+	  values: function values(it){
+	    return $values(it);
+	  }
+	});
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $         = __webpack_require__(163)
+	  , toIObject = __webpack_require__(165)
+	  , isEnum    = $.isEnum;
+	module.exports = function(isEntries){
+	  return function(it){
+	    var O      = toIObject(it)
+	      , keys   = $.getKeys(O)
+	      , length = keys.length
+	      , i      = 0
+	      , result = []
+	      , key;
+	    while(length > i)if(isEnum.call(O, key = keys[i++])){
+	      result.push(isEntries ? [key, O[key]] : O[key]);
+	    } return result;
+	  };
+	};
 
 /***/ }
 /******/ ]);

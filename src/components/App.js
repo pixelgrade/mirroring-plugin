@@ -23,11 +23,10 @@ export default class App extends React.Component {
 
 	render() {
 
-		console.log(this.state);
-
 		return <div id="app">
 			<Header />
 			<DevicePreview device_data={this.state}/>
+			<UsersOnline/>
 			</div>
 	}
 
