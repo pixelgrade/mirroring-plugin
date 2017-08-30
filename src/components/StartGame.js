@@ -7,14 +7,27 @@ export default class StartGame extends React.Component {
 		this.state = {
 			users: null
 		}
+
+		this.startGame = this.startGame.bind(this)
 	}
 
 	render() {
-
-		return <a className="btn" href="#">Start Game</a>
+		return <div>
+			<h3>
+				Hello, {mgame.name}!
+				<img draggable='false' className="emoji" alt="👋" src="https://s.w.org/images/core/emoji/2.3/svg/1f44b.svg" />
+			</h3>
+			<a className="c-btn  c-btn--primary  c-btn--invert  c-btn--shadowed" href="#" onClick={this.startGame}>Start Game</a>
+		</div>
 	}
 
-	componentWillMount() {
+	startGame (ev){
+		ev.preventDefault();
+		console.log('ok, let\'s start');
 
+		jQuery.post(useronlineL10n.ajax_url, data, function(response) {
+
+			console.log(response);
+		});
 	}
 }

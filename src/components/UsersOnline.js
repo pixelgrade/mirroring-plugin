@@ -14,6 +14,7 @@ export default class UsersOnline extends React.Component {
 	render() {
 		if ( this.state.users !== null ) {
 			return <div>
+				<h3>Players online now:</h3>
 				<ul>
 					{Object.values(this.state.users).map(function (user) {
 						return <li data-userid={user.user_id} key={user.user_id} >

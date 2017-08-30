@@ -56,11 +56,11 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _componentsApp = __webpack_require__(159);
+	var _componentsGame = __webpack_require__(159);
 	
-	var _componentsApp2 = _interopRequireDefault(_componentsApp);
+	var _componentsGame2 = _interopRequireDefault(_componentsGame);
 	
-	var _componentsIntro = __webpack_require__(199);
+	var _componentsIntro = __webpack_require__(205);
 	
 	var _componentsIntro2 = _interopRequireDefault(_componentsIntro);
 	
@@ -68,7 +68,7 @@
 		if (typeof mgame.name === 'undefined') {
 			_reactDom2['default'].render(_react2['default'].createElement(_componentsIntro2['default'], null), document.getElementById('notloggedin'));
 		} else {
-			_reactDom2['default'].render(_react2['default'].createElement(_componentsApp2['default'], null), document.getElementById('mirroring'));
+			_reactDom2['default'].render(_react2['default'].createElement(_componentsGame2['default'], null), document.getElementById('mirroring'));
 		}
 	}
 	
@@ -19549,31 +19549,34 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Footer = __webpack_require__(208);
+	var _Footer = __webpack_require__(190);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
-	var _UsersOnline = __webpack_require__(190);
+	var _UsersOnline = __webpack_require__(191);
 	
 	var _UsersOnline2 = _interopRequireDefault(_UsersOnline);
 	
-	var _DevicePreview = __webpack_require__(191);
+	var _DevicePreview = __webpack_require__(196);
 	
 	var _DevicePreview2 = _interopRequireDefault(_DevicePreview);
 	
-	var _StartGame = __webpack_require__(209);
+	var _StartGame = __webpack_require__(204);
 	
 	var _StartGame2 = _interopRequireDefault(_StartGame);
 	
-	var App = (function (_React$Component) {
-		_inherits(App, _React$Component);
+	var Game = (function (_React$Component) {
+		_inherits(Game, _React$Component);
 	
-		function App(props) {
-			_classCallCheck(this, App);
+		function Game(props) {
+			_classCallCheck(this, Game);
 	
-			_get(Object.getPrototypeOf(App.prototype), 'constructor', this).call(this, props);
+			_get(Object.getPrototypeOf(Game.prototype), 'constructor', this).call(this, props);
 	
 			this.state = {
+				game: {
+					status: 'inert'
+				},
 				dm: {
 					alpha: 3,
 					beta: 3,
@@ -19601,23 +19604,52 @@
 			this.gn = new GyroNorm();
 		}
 	
-		_createClass(App, [{
+		_createClass(Game, [{
 			key: 'render',
 			value: function render() {
 	
-				return _react2['default'].createElement(
+				var output = null;
+	
+				switch (this.state.game.status) {
+					case 'inert':
+	
+						output = _react2['default'].createElement(
+							'div',
+							{ className: 'entry-content' },
+							_react2['default'].createElement(_Header2['default'], null),
+							_react2['default'].createElement(_StartGame2['default'], null),
+							_react2['default'].createElement(_UsersOnline2['default'], null)
+						);
+	
+						break;
+	
+					case 'host_select':
+	
+						output = _react2['default'].createElement(
+							'div',
+							{ className: 'entry-content' },
+							_react2['default'].createElement(_Header2['default'], null),
+							_react2['default'].createElement(_DevicePreview2['default'], { dm: this.state.dm, 'do': this.state['do'] }),
+							_react2['default'].createElement(_Footer2['default'], null)
+						);
+	
+						break;
+					default:
+						output = 'nada';
+						break;
+				}
+	
+				var html = _react2['default'].createElement(
 					'div',
-					{ id: 'app', className: 'entry-content' },
-					_react2['default'].createElement(_Header2['default'], null),
-					_react2['default'].createElement(_DevicePreview2['default'], { dm: this.state.dm, 'do': this.state['do'] }),
-					_react2['default'].createElement(_UsersOnline2['default'], null),
-					_react2['default'].createElement(_Footer2['default'], null)
+					{ id: 'game' },
+					output
 				);
+	
+				return html;
 			}
 		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-	
 				var args = {
 					frequency: 50, // ( How often the object sends the values - milliseconds )
 					gravityNormalized: true, // ( If the gravity related values to be normalized )
@@ -19674,10 +19706,10 @@
 			}
 		}]);
 	
-		return App;
+		return Game;
 	})(_react2['default'].Component);
 	
-	exports['default'] = App;
+	exports['default'] = Game;
 	module.exports = exports['default'];
 
 /***/ },
@@ -20184,6 +20216,60 @@
 /* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	var _get = __webpack_require__(160)["default"];
+	
+	var _inherits = __webpack_require__(176)["default"];
+	
+	var _createClass = __webpack_require__(185)["default"];
+	
+	var _classCallCheck = __webpack_require__(188)["default"];
+	
+	var _interopRequireDefault = __webpack_require__(1)["default"];
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var Footer = (function (_React$Component) {
+		_inherits(Footer, _React$Component);
+	
+		function Footer() {
+			_classCallCheck(this, Footer);
+	
+			_get(Object.getPrototypeOf(Footer.prototype), "constructor", this).apply(this, arguments);
+		}
+	
+		_createClass(Footer, [{
+			key: "render",
+			value: function render() {
+				return _react2["default"].createElement(
+					"div",
+					{ className: "footer" },
+					_react2["default"].createElement(
+						"p",
+						{ className: "description" },
+						"You have 10s to set your device in the desired position."
+					)
+				);
+			}
+		}]);
+	
+		return Footer;
+	})(_react2["default"].Component);
+	
+	exports["default"] = Footer;
+	module.exports = exports["default"];
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	var _get = __webpack_require__(160)['default'];
@@ -20194,7 +20280,7 @@
 	
 	var _classCallCheck = __webpack_require__(188)['default'];
 	
-	var _Object$values = __webpack_require__(204)['default'];
+	var _Object$values = __webpack_require__(192)['default'];
 	
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 	
@@ -20228,6 +20314,11 @@
 					return _react2['default'].createElement(
 						'div',
 						null,
+						_react2['default'].createElement(
+							'h3',
+							null,
+							'Players online now:'
+						),
 						_react2['default'].createElement(
 							'ul',
 							null,
@@ -20287,7 +20378,55 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 191 */
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(193), __esModule: true };
+
+/***/ },
+/* 193 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(194);
+	module.exports = __webpack_require__(172).Object.values;
+
+/***/ },
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// http://goo.gl/XkBrjD
+	var $export = __webpack_require__(170)
+	  , $values = __webpack_require__(195)(false);
+	
+	$export($export.S, 'Object', {
+	  values: function values(it){
+	    return $values(it);
+	  }
+	});
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $         = __webpack_require__(163)
+	  , toIObject = __webpack_require__(165)
+	  , isEnum    = $.isEnum;
+	module.exports = function(isEntries){
+	  return function(it){
+	    var O      = toIObject(it)
+	      , keys   = $.getKeys(O)
+	      , length = keys.length
+	      , i      = 0
+	      , result = []
+	      , key;
+	    while(length > i)if(isEnum.call(O, key = keys[i++])){
+	      result.push(isEntries ? [key, O[key]] : O[key]);
+	    } return result;
+	  };
+	};
+
+/***/ },
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20310,7 +20449,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _propTypes = __webpack_require__(192);
+	var _propTypes = __webpack_require__(197);
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
@@ -20397,7 +20536,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 192 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20424,7 +20563,7 @@
 	  // By explicitly using `prop-types` you are opting into new development behavior.
 	  // http://fb.me/prop-types-in-prod
 	  var throwOnDirectAccess = true;
-	  module.exports = __webpack_require__(193)(isValidElement, throwOnDirectAccess);
+	  module.exports = __webpack_require__(198)(isValidElement, throwOnDirectAccess);
 	} else {
 	  // By explicitly using `prop-types` you are opting into new production behavior.
 	  // http://fb.me/prop-types-in-prod
@@ -20433,7 +20572,7 @@
 
 
 /***/ },
-/* 193 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20447,12 +20586,12 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(194);
-	var invariant = __webpack_require__(195);
-	var warning = __webpack_require__(196);
+	var emptyFunction = __webpack_require__(199);
+	var invariant = __webpack_require__(200);
+	var warning = __webpack_require__(201);
 	
-	var ReactPropTypesSecret = __webpack_require__(197);
-	var checkPropTypes = __webpack_require__(198);
+	var ReactPropTypesSecret = __webpack_require__(202);
+	var checkPropTypes = __webpack_require__(203);
 	
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -20951,7 +21090,7 @@
 
 
 /***/ },
-/* 194 */
+/* 199 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20994,7 +21133,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 195 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -21054,7 +21193,7 @@
 	module.exports = invariant;
 
 /***/ },
-/* 196 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -21069,7 +21208,7 @@
 	
 	'use strict';
 	
-	var emptyFunction = __webpack_require__(194);
+	var emptyFunction = __webpack_require__(199);
 	
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -21123,7 +21262,7 @@
 	module.exports = warning;
 
 /***/ },
-/* 197 */
+/* 202 */
 /***/ function(module, exports) {
 
 	/**
@@ -21143,7 +21282,7 @@
 
 
 /***/ },
-/* 198 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -21158,9 +21297,9 @@
 	'use strict';
 	
 	if (true) {
-	  var invariant = __webpack_require__(195);
-	  var warning = __webpack_require__(196);
-	  var ReactPropTypesSecret = __webpack_require__(197);
+	  var invariant = __webpack_require__(200);
+	  var warning = __webpack_require__(201);
+	  var ReactPropTypesSecret = __webpack_require__(202);
 	  var loggedTypeFailures = {};
 	}
 	
@@ -21210,7 +21349,86 @@
 
 
 /***/ },
-/* 199 */
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _get = __webpack_require__(160)['default'];
+	
+	var _inherits = __webpack_require__(176)['default'];
+	
+	var _createClass = __webpack_require__(185)['default'];
+	
+	var _classCallCheck = __webpack_require__(188)['default'];
+	
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var StartGame = (function (_React$Component) {
+		_inherits(StartGame, _React$Component);
+	
+		function StartGame(props) {
+			_classCallCheck(this, StartGame);
+	
+			_get(Object.getPrototypeOf(StartGame.prototype), 'constructor', this).call(this, props);
+	
+			this.state = {
+				users: null
+			};
+	
+			this.startGame = this.startGame.bind(this);
+		}
+	
+		_createClass(StartGame, [{
+			key: 'render',
+			value: function render() {
+				return _react2['default'].createElement(
+					'div',
+					null,
+					_react2['default'].createElement(
+						'h3',
+						null,
+						'Hello, ',
+						mgame.name,
+						'!',
+						_react2['default'].createElement('img', { draggable: 'false', className: 'emoji', alt: '👋', src: 'https://s.w.org/images/core/emoji/2.3/svg/1f44b.svg' })
+					),
+					_react2['default'].createElement(
+						'a',
+						{ className: 'c-btn  c-btn--primary  c-btn--invert  c-btn--shadowed', href: '#', onClick: this.startGame },
+						'Start Game'
+					)
+				);
+			}
+		}, {
+			key: 'startGame',
+			value: function startGame(ev) {
+				ev.preventDefault();
+				console.log('ok, let\'s start');
+	
+				jQuery.post(useronlineL10n.ajax_url, data, function (response) {
+	
+					console.log(response);
+				});
+			}
+		}]);
+	
+		return StartGame;
+	})(_react2['default'].Component);
+	
+	exports['default'] = StartGame;
+	module.exports = exports['default'];
+
+/***/ },
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21280,170 +21498,6 @@
 	
 	exports['default'] = Intro;
 	module.exports = exports['default'];
-
-/***/ },
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(205), __esModule: true };
-
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(206);
-	module.exports = __webpack_require__(172).Object.values;
-
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// http://goo.gl/XkBrjD
-	var $export = __webpack_require__(170)
-	  , $values = __webpack_require__(207)(false);
-	
-	$export($export.S, 'Object', {
-	  values: function values(it){
-	    return $values(it);
-	  }
-	});
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $         = __webpack_require__(163)
-	  , toIObject = __webpack_require__(165)
-	  , isEnum    = $.isEnum;
-	module.exports = function(isEntries){
-	  return function(it){
-	    var O      = toIObject(it)
-	      , keys   = $.getKeys(O)
-	      , length = keys.length
-	      , i      = 0
-	      , result = []
-	      , key;
-	    while(length > i)if(isEnum.call(O, key = keys[i++])){
-	      result.push(isEntries ? [key, O[key]] : O[key]);
-	    } return result;
-	  };
-	};
-
-/***/ },
-/* 208 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _get = __webpack_require__(160)["default"];
-	
-	var _inherits = __webpack_require__(176)["default"];
-	
-	var _createClass = __webpack_require__(185)["default"];
-	
-	var _classCallCheck = __webpack_require__(188)["default"];
-	
-	var _interopRequireDefault = __webpack_require__(1)["default"];
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var Footer = (function (_React$Component) {
-		_inherits(Footer, _React$Component);
-	
-		function Footer() {
-			_classCallCheck(this, Footer);
-	
-			_get(Object.getPrototypeOf(Footer.prototype), "constructor", this).apply(this, arguments);
-		}
-	
-		_createClass(Footer, [{
-			key: "render",
-			value: function render() {
-				return _react2["default"].createElement(
-					"div",
-					{ className: "footer" },
-					_react2["default"].createElement(
-						"p",
-						{ className: "description" },
-						"You have 10s to set your device in the desired position."
-					)
-				);
-			}
-		}]);
-	
-		return Footer;
-	})(_react2["default"].Component);
-	
-	exports["default"] = Footer;
-	module.exports = exports["default"];
-
-/***/ },
-/* 209 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _get = __webpack_require__(160)["default"];
-	
-	var _inherits = __webpack_require__(176)["default"];
-	
-	var _createClass = __webpack_require__(185)["default"];
-	
-	var _classCallCheck = __webpack_require__(188)["default"];
-	
-	var _interopRequireDefault = __webpack_require__(1)["default"];
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var StartGame = (function (_React$Component) {
-		_inherits(StartGame, _React$Component);
-	
-		function StartGame(props) {
-			_classCallCheck(this, StartGame);
-	
-			_get(Object.getPrototypeOf(StartGame.prototype), "constructor", this).call(this, props);
-	
-			this.state = {
-				users: null
-			};
-		}
-	
-		_createClass(StartGame, [{
-			key: "render",
-			value: function render() {
-	
-				return _react2["default"].createElement(
-					"a",
-					{ className: "btn", href: "#" },
-					"Start Game"
-				);
-			}
-		}, {
-			key: "componentWillMount",
-			value: function componentWillMount() {}
-		}]);
-	
-		return StartGame;
-	})(_react2["default"].Component);
-	
-	exports["default"] = StartGame;
-	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
